@@ -1,0 +1,875 @@
+﻿<!DOCTYPE html>
+<html lang="ml">
+<head>
+    <meta charset="UTF-8">
+    <title>മദ്രസ മാനേജുമെന്റ് & മാർക്ക് ലിസ്റ്റ് സിസ്റ്റം</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 15px;
+            color: #333;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 1350px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2, h4 {
+            text-align: center;
+            color: #1a5276;
+        }
+        /* Login Screen */
+        #login-screen {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        #login-screen input {
+            width: 90%;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #login-screen button {
+            padding: 12px 25px;
+            background: #28b463;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Dashboard Icons */
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .icon-card {
+            background: #eaf2f8;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 320px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .icon-card:hover {
+            background: #d4e6f1;
+            transform: translateY(-5px);
+        }
+        .icon-card h3 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        /* App Sections */
+        .app-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .back-btn {
+            background: #7f8c8d;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        /* Forms & Tables */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #2980b9;
+            color: white;
+        }
+        .btn {
+            background: #27ae60;
+            color: white;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+            padding: 6px 10px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            font-size: 12px;
+            margin: 2px;
+        }
+        .btn-edit {
+            background: #f39c12;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 2px;
+        }
+        .btn-delete {
+            background: #c0392b;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin: 2px;
+        }
+        .page-controls {
+            margin-bottom: 15px;
+            text-align: center;
+            background: #f1f1f1;
+            padding: 12px;
+            border-radius: 5px;
+        }
+        
+        .certificate-box {
+            border: 3px double #d4ac0d;
+            padding: 30px;
+            margin-top: 20px;
+            background: #fef9e7;
+            text-align: center;
+            display: none;
+        }
+
+        /* Print Settings for A3 / A4 Alignment */
+        @media print {
+            @page {
+                size: A3 landscape;
+                margin: 10mm;
+            }
+            .no-print, .back-btn, button, #login-screen, .dashboard, form, .form-group, .page-controls {
+                display: none !important;
+            }
+            body {
+                background: none;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                width: 100%;
+                max-width: 100% !important;
+            }
+            .app-section {
+                display: none !important;
+            }
+            #student-reg[style*="display: block"], 
+            #fee-manager[style*="display: block"], 
+            #mark-list[style*="display: block"] {
+                display: block !important;
+            }
+            table {
+                font-size: 12px;
+                width: 100% !important;
+            }
+            body.print-single-cert .container * {
+                visibility: hidden !important;
+            }
+            body.print-single-cert #certificate-preview, 
+            body.print-single-cert #certificate-preview * {
+                visibility: visible !important;
+            }
+            body.print-single-cert #certificate-preview {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                display: block !important;
+                background: #fff;
+                box-sizing: border-box;
+            }
+        }
+
+        body.print-single-cert .certificate-box {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <h2>പാസ്‌വേഡ് നൽകുക</h2>
+        <p style="font-size: 14px; color: #666;">ആപ്പ് തുറക്കാൻ പാസ്‌വേഡ് ടൈപ്പ് ചെയ്യുക</p>
+        <input type="password" id="app-password" placeholder="Password">
+        <br>
+        <button onclick="checkPassword()">തുറക്കുക</button>
+    </div>
+
+    <!-- Main Application Container -->
+    <div id="main-container" class="container" style="display: none;">
+        <h1>മദ്റസ മാനേജുമെന്റ് സിസ്റ്റം</h1>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;" class="no-print">
+            <div>
+                <button class="btn" style="background: #2980b9; font-size: 14px;" onclick="exportData()">📥 ഡാറ്റ ബാക്കപ്പ് (Export)</button>
+                <button class="btn" style="background: #8e44ad; font-size: 14px;" onclick="document.getElementById('import-file').click()">📤 ബാക്കപ്പ് തിരിച്ചെടുക്കുക (Import)</button>
+                <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importData(event)">
+            </div>
+            <div>
+                <button class="btn-edit" style="padding: 8px 12px; font-size: 14px;" onclick="changePasswordModal()">പാസ്‌വേഡ് മാറ്റുക</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Home -->
+        <div id="dashboard-home" class="dashboard no-print">
+            <div class="icon-card" onclick="openSection('student-reg')">
+                <h3>📚 1. കുട്ടികളുടെ രജിസ്ട്രേഷൻ</h3>
+                <p>കുട്ടികളുടെ വിവരങ്ങൾ ചേർക്കാൻ.</p>
+            </div>
+            <div class="icon-card" onclick="openSection('fee-manager')">
+                <h3>💰 2. വരിസംഖ്യ / ഫീസ് മാനേജർ</h3>
+                <p>ഫീസ് വിവരങ്ങൾ രേഖപ്പെടുത്താൻ.</p>
+            </div>
+            <div class="icon-card" onclick="openSection('mark-list')">
+                <h3>📊 3. മാർക്ക് ലിസ്റ്റ് & സർട്ടിഫിക്കറ്റ്</h3>
+                <p>മാർക്കും ഗ്രേഡും തയ്യാറാക്കാൻ.</p>
+            </div>
+        </div>
+
+        <!-- Section 1: Student Registration -->
+        <div id="student-reg" class="app-section">
+            <button class="back-btn no-print" onclick="goHome()">⬅️ ഹോം പേജിലേക്ക്</button>
+            <h2>കുട്ടികളുടെ അഡ്മിഷൻ & വിവരങ്ങൾ</h2>
+            
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px;" class="no-print">
+                <h3>മദ്റസ വിവരങ്ങൾ</h3>
+                <div class="form-group"><label>മദ്റസയുടെ പേര്:</label><input type="text" id="m-name" value="മദ്റസത്തുുന്നുർ, ആസാദ് നഗർ"></div>
+                <div class="form-group"><label>സ്ഥലം:</label><input type="text" id="m-place" value="ആസാദ് നഗർ"></div>
+                <div class="form-group"><label>അംഗീകരണ നമ്പർ:</label><input type="text" id="m-regno" value="6502"></div>
+            </div>
+
+            <div class="no-print">
+                <h3>പുതിയ കുട്ടി ചേർക്കാൻ</h3>
+                <div class="form-group"><label>കുട്ടിയുടെ പേരും ഇനീഷ്യലും:</label><input type="text" id="s-name"></div>
+                <div class="form-group"><label>ആൺ / പെൺ (Gender):</label>
+                    <select id="s-gender">
+                        <option value="ആൺ (Boy)">ആൺ (Boy)</option>
+                        <option value="പെൺ (Girl)">പെൺ (Girl)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>പിതാവിന്റെ പേര്:</label><input type="text" id="s-father"></div>
+                <div class="form-group"><label>ജനന തിയ്യതി:</label><input type="date" id="s-dob"></div>
+                <div class="form-group"><label>അഡ്മിഷൻ നമ്പർ:</label><input type="text" id="s-admno"></div>
+                <div class="form-group"><label>അഡ്മിഷൻ തിയ്യതി:</label><input type="date" id="s-admdate"></div>
+                <div class="form-group"><label>ക്ലാസ് (1-12):</label>
+                    <select id="s-class">
+                        <option value="Class 1">Class 1</option><option value="Class 2">Class 2</option><option value="Class 3" selected>Class 3</option>
+                        <option value="Class 4">Class 4</option><option value="Class 5">Class 5</option><option value="Class 6">Class 6</option>
+                        <option value="Class 7">Class 7</option><option value="Class 8">Class 8</option><option value="Class 9">Class 9</option>
+                        <option value="Class 10">Class 10</option><option value="Class 11">Class 11</option><option value="Class 12">Class 12</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>മാസ ഫീസ് (₹):</label><input type="number" id="s-fee" value="50"></div>
+                <div class="form-group"><label>വാട്സാപ്പ് നമ്പർ:</label><input type="text" id="s-phone" placeholder="919847xxxxxx"></div>
+                <button class="btn" onclick="addStudent()">കുട്ടിയെ സേവ് ചെയ്യുക</button>
+            </div>
+
+            <h3>രജിസ്റ്റർ ചെയ്ത കുട്ടികളുടെ പട്ടിക</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ക്രമ നമ്പർ</th><th>Adm No</th><th>പേര്</th><th>ലിംഗം</th><th>പിതാവ്</th><th>ക്ലാസ്</th><th>മാസ ഫീസ്</th><th class="no-print">നടപടി</th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 2: Fee Manager -->
+        <div id="fee-manager" class="app-section">
+            <button class="back-btn no-print" onclick="goHome()">⬅️ ഹോം പേജിലേക്ക്</button>
+            <h2>വരിസംഖ്യ / ഫീസ് മാനേജർ</h2>
+            
+            <div class="no-print">
+                <div class="form-group"><label>കുട്ടിയെ തിരഞ്ഞെടുക്കുക:</label>
+                    <select id="fee-student-select"></select>
+                </div>
+                <div class="form-group"><label>വർഷം:</label><input type="text" id="f-year" value="1445-1446 H"></div>
+                <div class="form-group"><label>മാസം:</label>
+                    <select id="f-month">
+                        <option>ജനുവരി</option><option>ഫെബ്രുവരി</option><option>മാർച്ച്</option><option>ഏപ്രിൽ</option>
+                        <option>മെയ്</option><option>ജൂൺ</option><option>ജൂലൈ</option><option>ഓഗസ്റ്റ്</option><option>സെപ്റ്റംബർ</option><option>ഒക്ടോബർ</option><option>നവംബർ</option><option>ഡിസംബർ</option>
+                    </select>
+                </div>
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h4>ഫീസ് തുകകൾ</h4>
+                    <div class="form-group"><label>കുടിശ്ശിക (₹):</label><input type="number" id="f-arrears" value="0"></div>
+                    <div class="form-group"><label>തൻമാസം (₹):</label><input type="number" id="f-current" value="0"></div>
+                    <div class="form-group"><label>അഡ്വാൻസ് (₹):</label><input type="number" id="f-advance" value="0"></div>
+                </div>
+                <button class="btn" onclick="saveFee()">ഫീസ് അടച്ച് സേവ് ചെയ്യുക</button>
+            </div>
+
+            <h3>അടച്ച ഫീസ് വിവരങ്ങൾ</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ക്രമ നമ്പർ</th><th>ലിംഗം</th><th>പേര്</th><th>വർഷം/മാസം</th><th>കുടിശ്ശിക</th><th>തൻമാസം</th><th>അഡ്വാൻസ്</th><th>ആകെ</th><th>തിയതി & സമയം</th><th class="no-print">നടപടി</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fee-table-body"></tbody>
+                </table>
+            </div>
+            <br>
+            <button class="btn no-print" onclick="window.print()">ഫീസ് രേഖകൾ പ്രിന്റ് ചെയ്യുക</button>
+        </div>
+
+        <!-- Section 3: Mark List & Certificate Manager -->
+        <div id="mark-list" class="app-section">
+            <button class="back-btn no-print" onclick="goHome()">⬅️ ഹോം പേജിലേക്ക്</button>
+            <h2>മാർക്ക് ലിസ്റ്റ് & പ്രശംസാപത്രം മാനേജർ</h2>
+            
+            <div class="page-controls no-print">
+                <label for="pageSizeSelect"><strong>പ്രിന്റ് പേപ്പർ സൈസ്:</strong></label>
+                <select id="pageSizeSelect" style="width: 200px; display: inline-block;">
+                    <option value="A4">A4 (Landscape)</option>
+                    <option value="A3" selected>A3 (Landscape)</option>
+                </select>
+            </div>
+
+            <div class="no-print">
+                <div class="form-group"><label>പരീക്ഷയുടെ പേര്:</label>
+                    <select id="m-exam" onchange="loadStudentMarksForExam()">
+                        <option value="മോഡൽ പരീക്ഷ 2026">മോഡൽ പരീക്ഷ 2026</option>
+                        <option value="അർദ്ധ വാർഷിക പരീക്ഷ 2026">അർദ്ധ വാർഷിക പരീക്ഷ 2026</option>
+                        <option value="വാർഷിക പരീക്ഷ 2026">വാർഷിക പരീക്ഷ 2026</option>
+                        <option value="പൊതു പരീക്ഷ">പൊതു പരീക്ഷ</option>
+                    </select>
+                </div>
+
+                <div class="form-group"><label>കുട്ടിയെ തിരഞ്ഞെടുക്കുക:</label>
+                    <select id="mark-student-select" onchange="loadStudentMarksForExam()"></select>
+                </div>
+
+                <div style="background: #eaf2f8; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h4>പുതിയ വിഷയം ചേർക്കുക (+)</h4>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <input type="text" id="new-subject-name" placeholder="വിഷയത്തിന്റെ പേര്" style="flex: 1; min-width: 200px;">
+                        <button class="btn" type="button" onclick="addSubject()">വിഷയം ചേർക്കുക (+)</button>
+                    </div>
+                </div>
+
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h4>വിഷയങ്ങളും മാർക്കും (100-ൽ)</h4>
+                    <div id="subjects-container"></div>
+                </div>
+
+                <div style="background: #eaf2f8; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                    <h4>ഹാജർ വിവരങ്ങൾ</h4>
+                    <div class="form-group"><label>ആകെ പ്രവൃത്തി ദിവസങ്ങൾ:</label><input type="number" id="att-total" value="100"></div>
+                    <div class="form-group"><label>ഹാജരായ ദിവസങ്ങൾ:</label><input type="number" id="att-present" placeholder="ഉദാ: 95"></div>
+                </div>
+                
+                <button class="btn" onclick="calculateAndSaveMark()">മാർക്ക് കണക്കാക്കി സേവ് ചെയ്യുക</button>
+            </div>
+
+            <h3>സേവ് ചെയ്ത മാർക്ക് ലിസ്റ്റുകളും റാങ്കുകളും</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ക്രമ നമ്പർ</th><th>ലിംഗം</th><th>പേര്</th><th>പരീക്ഷ</th>
+                            <th>ഖുർആൻ</th><th>ഫിഖ്ഹ്</th><th>തസ്കിയ</th><th>ദുറൂസ് 1</th><th>ദുറൂസ് 2</th><th>തജ് വീദ്</th>
+                            <th>ആകെ</th><th>ശതമാനം</th><th>ഗ്രേഡ്</th><th>റിസൾട്ട്</th><th>റാങ്ക്</th><th>ഹാജർ</th>
+                            <th class="no-print">നടപടി</th>
+                        </tr>
+                    </thead>
+                    <tbody id="mark-table-body"></tbody>
+                </table>
+            </div>
+
+            <!-- Certificate & Mark List Print Box -->
+            <div id="certificate-preview" class="certificate-box">
+                <h3 id="c-madrassa-name">മദ്റസത്തുുന്നുർ, ആസാദ് നഗർ</h3>
+                <p>അംഗീകൃത മദ്രസ ബോർഡ്</p>
+                <hr>
+                <h2>പ്രശംസാപത്രം & മാർക്ക് ലിസ്റ്റ്</h2>
+                <p>CERTIFICATE OF EXCELLENCE</p>
+                <p>ഈ അധ്യയന വർഷത്തിലെ <strong id="c-exam-name">മോഡൽ പരീക്ഷ 2026</strong>-ൽ<br>
+                <strong id="c-class-name">Class 3</strong> ക്ലാസ്സിലെ വിദ്യാർത്ഥി<br>
+                <h1 style="color: #900C3F;" id="c-student-name">മുഹമ്മദ് റിസിൻ പി കെ</h1>
+                മികച്ച വിജയം കരസ്ഥമാക്കിയതിനാൽ പ്രശംസിക്കുകയും സർട്ടിഫിക്കറ്റ് നൽകി ആദരിക്കുകയും ചെയ്യുന്നു.</p>
+                
+                <h3 style="color: #27ae60;" id="c-grade-text">GRADE: A+</h3>
+                
+                <div style="margin: 20px 0;">
+                    <h4>വിഷയ തിരിച്ചുള്ള മാർക്കുകൾ</h4>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                        <thead>
+                            <tr style="background: #2980b9; color: white;">
+                                <th style="border: 1px solid #000; padding: 6px;">വിഷയം</th>
+                                <th style="border: 1px solid #000; padding: 6px;">ലഭിച്ച മാർക്ക് (100-ൽ)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="print-marks-tbody"></tbody>
+                    </table>
+                </div>
+
+                <p>ആകെ മാർക്ക്: <span id="c-total-mark">0</span> | ശതമാനം: <span id="c-per">0%</span> | ഫലം: <span id="c-result-status"> വിജയം </span><br>
+                ഹാജർ: <span id="c-att">0 / 0 (0%)</span></p>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+                    <p>സദർ മുഅല്ലിം: ....................</p>
+                    <p>പ്രിൻസിപ്പൽ / സെക്രട്ടറി: ....................</p>
+                </div>
+            </div>
+
+            <br>
+            <button class="btn no-print" onclick="window.print()">മാർക്ക് ലിസ്റ്റ് പ്രിന്റ് ചെയ്യുക</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPassword = localStorage.getItem("m_app_pass") || "123";
+
+        function checkPassword() {
+            var pass = document.getElementById("app-password").value;
+            if (pass === currentPassword) {
+                document.getElementById("login-screen").style.display = "none";
+                document.getElementById("main-container").style.display = "block";
+                loadData();
+                renderSubjects();
+            } else {
+                alert("തെറ്റായ പാസ്‌വേഡ്! വീണ്ടും ശ്രമിക്കുക.");
+            }
+        }
+
+        function changePasswordModal() {
+            let oldP = prompt("നിലവിലെ പാസ്‌വേഡ് നൽകുക:");
+            if(oldP === currentPassword) {
+                let newP = prompt("പുതിയ പാസ്‌വേഡ് നൽകുക:");
+                if(newP && newP.trim() !== "") {
+                    currentPassword = newP.trim();
+                    localStorage.setItem("m_app_pass", currentPassword);
+                    alert("പാസ്‌വേഡ് വിജയകരമായി മാറ്റി!");
+                } else {
+                    alert("ശൂന്യമായ പാസ്‌വേഡ് സ്വീകാര്യമല്ല.");
+                }
+            } else if(oldP !== null) {
+                alert("തെറ്റായ പാസ്‌വേഡ്!");
+            }
+        }
+
+        function exportData() {
+            let data = { students: students, fees: fees, marks: marks, subjects: subjects, pass: currentPassword };
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+            let downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "madrassa_backup_" + new Date().toISOString().slice(0,10) + ".json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importData(event) {
+            let file = event.target.files[0];
+            if(!file) return;
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let imported = JSON.parse(e.target.result);
+                    if(imported.students) { localStorage.setItem("m_students", JSON.stringify(imported.students)); students = imported.students; }
+                    if(imported.fees) { localStorage.setItem("m_fees", JSON.stringify(imported.fees)); fees = imported.fees; }
+                    if(imported.marks) { localStorage.setItem("m_marks", JSON.stringify(imported.marks)); marks = imported.marks; }
+                    if(imported.subjects) { localStorage.setItem("m_subjects", JSON.stringify(imported.subjects)); subjects = imported.subjects; }
+                    if(imported.pass) { localStorage.setItem("m_app_pass", imported.pass); currentPassword = imported.pass; }
+                    alert("ഡാറ്റ വിജയകരമായി തിരിച്ചെടുത്തു!");
+                    loadData();
+                } catch(err) {
+                    alert("ഫയൽ റീഡ് ചെയ്യുന്നതിൽ പരാജയപ്പെട്ടു.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function openSection(sectionId) {
+            document.getElementById("dashboard-home").style.display = "none";
+            var sections = document.getElementsByClassName("app-section");
+            for (var i = 0; i < sections.length; i++) { sections[i].style.display = "none"; }
+            document.getElementById(sectionId).style.display = "block";
+            updateDropdowns();
+            renderSubjects();
+            loadStudentMarksForExam();
+        }
+
+        function goHome() {
+            var sections = document.getElementsByClassName("app-section");
+            for (var i = 0; i < sections.length; i++) { sections[i].style.display = "none"; }
+            document.getElementById("dashboard-home").style.display = "flex";
+        }
+
+        let students = JSON.parse(localStorage.getItem("m_students")) || [];
+        let fees = JSON.parse(localStorage.getItem("m_fees")) || [];
+        let marks = JSON.parse(localStorage.getItem("m_marks")) || [];
+        let subjects = JSON.parse(localStorage.getItem("m_subjects")) || ["ഖുർആൻ", "ഫിഖ്ഹ്", "തസ്കിയ", "ദുറൂസ് 1", "ദുറൂസ് 2", "തജ് വീദ്"];
+
+        function addSubject() {
+            let subName = document.getElementById("new-subject-name").value.trim();
+            if(!subName) { alert("വിഷയത്തിന്റെ പേര് നൽകുക."); return; }
+            if(subjects.includes(subName)) { alert("ഈ വിഷയം ഇതിനകം ചേർത്തിട്ടുണ്ട്!"); return; }
+            subjects.push(subName);
+            localStorage.setItem("m_subjects", JSON.stringify(subjects));
+            document.getElementById("new-subject-name").value = "";
+            renderSubjects();
+            alert("വിഷയം ചേർത്തു!");
+        }
+
+        function renderSubjects() {
+            let container = document.getElementById("subjects-container");
+            if(!container) return;
+            let html = "";
+            subjects.forEach((sub) => {
+                let passMark = (sub === "ഖുർആൻ") ? 30 : 35;
+                html += `<div class="form-group"><label>${sub} (പാസ് മാർക്ക്: ${passMark}):</label><input type="number" class="sub-mark-input" data-subject="${sub}" placeholder="100-ൽ മാർക്ക്"></div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function loadStudentMarksForExam() {
+            let student = document.getElementById("mark-student-select").value;
+            let exam = document.getElementById("m-exam").value;
+            let inputs = document.querySelectorAll(".sub-mark-input");
+            inputs.forEach(input => input.value = "");
+            document.getElementById("att-present").value = "";
+
+            let found = marks.find(m => m.student === student && m.exam === exam);
+            if(found) {
+                inputs.forEach(input => {
+                    let sub = input.getAttribute("data-subject");
+                    if(found.subMarks && found.subMarks[sub] !== undefined) {
+                        input.value = found.subMarks[sub];
+                    }
+                });
+                if(found.attendanceObj) {
+                    document.getElementById("att-total").value = found.attendanceObj.total || 100;
+                    document.getElementById("att-present").value = found.attendanceObj.present || "";
+                }
+            }
+        }
+
+        function addStudent() {
+            let s = {
+                name: document.getElementById("s-name").value,
+                gender: document.getElementById("s-gender").value,
+                father: document.getElementById("s-father").value,
+                dob: document.getElementById("s-dob").value,
+                admno: document.getElementById("s-admno").value,
+                admdate: document.getElementById("s-admdate").value,
+                cls: document.getElementById("s-class").value,
+                fee: document.getElementById("s-fee").value,
+                phone: document.getElementById("s-phone").value
+            };
+            if(!s.name || !s.admno) { alert("പേരും അഡ്മിഷൻ നമ്പറും നൽകുക."); return; }
+            students.push(s);
+            localStorage.setItem("m_students", JSON.stringify(students));
+            alert("കുട്ടിയെ സേവ് ചെയ്തു!");
+            loadData();
+            document.getElementById("s-name").value = "";
+            document.getElementById("s-admno").value = "";
+        }
+
+        function deleteStudent(index) {
+            let pass = prompt("പാസ്‌വേഡ് നൽകുക:");
+            if(pass === currentPassword) {
+                students.splice(index, 1);
+                localStorage.setItem("m_students", JSON.stringify(students));
+                loadData();
+                alert("നീക്കം ചെയ്തു.");
+            } else if(pass !== null) { alert("തെറ്റായ പാസ്‌വേഡ്!"); }
+        }
+
+        function saveFee() {
+            let student = document.getElementById("fee-student-select").value;
+            let month = document.getElementById("f-month").value;
+            let year = document.getElementById("f-year").value;
+
+            let existingFee = fees.find(f => f.student === student && f.month === month && f.year === year && (parseFloat(f.current) > 0));
+            if(existingFee) {
+                alert(`ഈ കുട്ടിക്ക് (${student}) ${year} (${month}) മാസത്തെ ഫീസ് ഇതിനകം അടച്ചതാണ്!`);
+                return;
+            }
+
+            let arrears = parseFloat(document.getElementById("f-arrears").value) || 0;
+            let current = parseFloat(document.getElementById("f-current").value) || 0;
+            let advance = parseFloat(document.getElementById("f-advance").value) || 0;
+            let totalAmount = arrears + current + advance;
+
+            let f = { student, year, month, arrears, current, advance, total: totalAmount, datetime: new Date().toLocaleString() };
+            if(!f.student || totalAmount <= 0) { alert("തുക നൽകുക."); return; }
+            fees.push(f);
+            localStorage.setItem("m_fees", JSON.stringify(fees));
+            alert("ഫീസ് സേവ് ചെയ്തു!");
+            loadData();
+        }
+
+        function editFee(index) {
+            let pass = prompt("പാസ്‌വേഡ് നൽകുക:");
+            if (pass === currentPassword) {
+                let f = fees[index];
+                document.getElementById("fee-student-select").value = f.student;
+                document.getElementById("f-year").value = f.year;
+                document.getElementById("f-month").value = f.month;
+                document.getElementById("f-arrears").value = f.arrears;
+                document.getElementById("f-current").value = f.current;
+                document.getElementById("f-advance").value = f.advance;
+                fees.splice(index, 1);
+                localStorage.setItem("m_fees", JSON.stringify(fees));
+                loadData();
+                alert("മാറ്റങ്ങൾ വരുത്തി സേവ് ചെയ്യുക.");
+            } else if(pass !== null) { alert("തെറ്റായ പാസ്‌വേഡ്!"); }
+        }
+
+        function deleteFee(index) {
+            let pass = prompt("പാസ്‌വേഡ് നൽകുക:");
+            if (pass === currentPassword) {
+                fees.splice(index, 1);
+                localStorage.setItem("m_fees", JSON.stringify(fees));
+                loadData();
+                alert("ഡിലീറ്റ് ചെയ്തു.");
+            } else if(pass !== null) { alert("തെറ്റായ പാസ്‌വേഡ്!"); }
+        }
+
+        function calculateAndSaveMark() {
+            let student = document.getElementById("mark-student-select").value;
+            let exam = document.getElementById("m-exam").value;
+            let pass = prompt("പാസ്‌വേഡ് നൽകുക:");
+            if (pass !== currentPassword) { if(pass !== null) alert("തെറ്റായ പാസ്‌വേഡ്!"); return; }
+
+            let subMarks = {};
+            let inputs = document.querySelectorAll(".sub-mark-input");
+            let totalMarks = 0;
+            let maxMarks = inputs.length * 100;
+            let isPassed = true;
+
+            if (inputs.length === 0) { alert("വിഷയങ്ങൾ ഇല്ല."); return; }
+
+            inputs.forEach(input => {
+                let subName = input.getAttribute("data-subject");
+                let mark = parseFloat(input.value) || 0;
+                subMarks[subName] = mark;
+                totalMarks += mark;
+                let passMark = (subName === "ഖുർആൻ") ? 30 : 35;
+                if (mark < passMark) isPassed = false;
+            });
+
+            let percentage = (maxMarks > 0) ? ((totalMarks / maxMarks) * 100).toFixed(2) : 0;
+            let grade = "";
+            let resultStatus = isPassed ? "വിജയിച്ചു (Passed)" : "പരാജയപ്പെട്ടു (Failed)";
+
+            if (!isPassed) grade = "E (Failed)";
+            else if (percentage >= 90) grade = "A+ (Top Star)";
+            else if (percentage >= 80) grade = "A (Distinction)";
+            else if (percentage >= 70) grade = "B+ (First Class)";
+            else if (percentage >= 60) grade = "B (Second Class)";
+            else if (percentage >= 50) grade = "C (Third Class)";
+            else grade = "D (Pass)";
+
+            let attTotal = parseFloat(document.getElementById("att-total").value) || 100;
+            let attPresent = parseFloat(document.getElementById("att-present").value) || 0;
+            let attPer = (attTotal > 0) ? ((attPresent / attTotal) * 100).toFixed(1) : 0;
+            let attendanceText = `${attPresent} / ${attTotal} (${attPer}%)`;
+
+            let studentObj = students.find(s => `${s.name} (${s.cls})` === student);
+            let gender = studentObj ? studentObj.gender : "ആൺ (Boy)";
+
+            marks = marks.filter(m => !(m.student === student && m.exam === exam));
+            let m = { student, gender, exam, subMarks, rawTotal: totalMarks, total: `${totalMarks} / ${maxMarks}`, percentage: `${percentage}%`, attendance: attendanceText, attendanceObj: { total: attTotal, present: attPresent }, grade, result: resultStatus };
+
+            if(!m.student) { alert("കുട്ടിയെ തിരഞ്ഞെടുക്കുക."); return; }
+            marks.push(m);
+            localStorage.setItem("m_marks", JSON.stringify(marks));
+            alert("സേവ് ചെയ്തു!");
+            loadData();
+        }
+
+        function loadData() {
+            let sortedStudents = [...students].sort((a, b) => {
+                let gA = (a.gender || '').includes('പെൺ') ? 1 : 0;
+                let gB = (b.gender || '').includes('പെൺ') ? 1 : 0;
+                return gA - gB;
+            });
+
+            let sHTML = "";
+            let boyCount = 0, girlCount = 0;
+            sortedStudents.forEach((s) => {
+                let isGirl = (s.gender || '').includes('പെൺ');
+                if(isGirl) girlCount++; else boyCount++;
+                let displaySlNo = isGirl ? girlCount : boyCount;
+                let originalIndex = students.findIndex(st => st.admno === s.admno && st.name === s.name);
+
+                sHTML += `<tr>
+                    <td><strong>${displaySlNo}</strong></td><td>${s.admno}</td><td>${s.name}</td><td>${s.gender || 'ആൺ (Boy)'}</td><td>${s.father}</td><td>${s.cls}</td><td>₹${s.fee}</td>
+                    <td class="no-print"><button class="btn-delete" onclick="deleteStudent(${originalIndex})">ഡിലീറ്റ്</button></td>
+                </tr>`;
+            });
+            if(document.getElementById("student-table-body")) document.getElementById("student-table-body").innerHTML = sHTML;
+
+            let sortedFees = [...fees].sort((a, b) => {
+                let stA = students.find(s => `${s.name} (${s.cls})` === a.student);
+                let stB = students.find(s => `${s.name} (${s.cls})` === b.student);
+                let gA = (stA && (stA.gender || '').includes('പെൺ')) ? 1 : 0;
+                let gB = (stB && (stB.gender || '').includes('പെൺ')) ? 1 : 0;
+                return gA - gB;
+            });
+
+            let fHTML = "";
+            let fBoyCount = 0, fGirlCount = 0;
+            sortedFees.forEach((f) => {
+                let stObj = students.find(s => `${s.name} (${s.cls})` === f.student);
+                let isGirl = stObj && (stObj.gender || '').includes('പെൺ');
+                if(isGirl) fGirlCount++; else fBoyCount++;
+                let displaySlNo = isGirl ? fGirlCount : fBoyCount;
+                let realIndex = fees.findIndex(item => item === f);
+                let madrassaName = document.getElementById("m-name").value || "മദ്റസത്തുുന്നുർ, ആസാദ് നഗർ";
+                let msg = `*${madrassaName}*\n*ഫീസ് വിവരങ്ങൾ* (${f.month}, ${f.year}):\n- കുട്ടിയുടെ പേര്: *${f.student}*\n- കുടിശ്ശിക: *₹${f.arrears}*\n- തൻമാസം: *₹${f.current}*\n- അഡ്വാൻസ്: *₹${f.advance}*\n- ആകെ അടച്ച തുക: *₹${f.total}*\n- തീയതി/സമയം: *${f.datetime}*\n\nتقبل الله وجزاكم الله خيرا`;
+                let wpLink = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+                fHTML += `<tr>
+                    <td><strong>${displaySlNo}</strong></td><td>${isGirl ? 'പെൺ (Girl)' : 'ആൺ (Boy)'}</td><td>${f.student}</td><td>${f.year} (${f.month})</td><td>₹${f.arrears}</td><td>₹${f.current}</td><td>₹${f.advance}</td><td><strong>₹${f.total}</strong></td><td>${f.datetime}</td>
+                    <td class="no-print">
+                        <a class="btn-whatsapp" href="${wpLink}" target="_blank">വാട്സാപ്പ്</a>
+                        <button class="btn-edit" onclick="editFee(${realIndex})">തിരുത്തുക</button>
+                        <button class="btn-delete" onclick="deleteFee(${realIndex})">ഡിലീറ്റ്</button>
+                    </td>
+                </tr>`;
+            });
+            if(document.getElementById("fee-table-body")) document.getElementById("fee-table-body").innerHTML = fHTML;
+
+            marks.sort((a, b) => (b.rawTotal || 0) - (a.rawTotal || 0));
+            let sortedMarks = [...marks].sort((a, b) => {
+                let gA = (a.gender || '').includes('പെൺ') ? 1 : 0;
+                let gB = (b.gender || '').includes('പെൺ') ? 1 : 0;
+                if(gA !== gB) return gA - gB;
+                return (b.rawTotal || 0) - (a.rawTotal || 0);
+            });
+
+            let mHTML = "";
+            let mBoyCount = 0, mGirlCount = 0;
+            sortedMarks.forEach((m, index) => {
+                let isGirl = (m.gender || '').includes('പെൺ');
+                if(isGirl) mGirlCount++; else mBoyCount++;
+                let displaySlNo = isGirl ? mGirlCount : mBoyCount;
+                let rankText = (index + 1);
+                if (index === 0) rankText = "1 🥇"; else if (index === 1) rankText = "2 🥈"; else if (index === 2) rankText = "3 🥉";
+
+                let subCols = "";
+                subjects.forEach(sub => {
+                    let markVal = (m.subMarks && m.subMarks[sub] !== undefined) ? m.subMarks[sub] : "-";
+                    subCols += `<td>${markVal}</td>`;
+                });
+
+                let congratsText = m.result.includes("വിജയിച്ചു") ? "\nഅഭിനന്ദനങ്ങൾ!" : "";
+                let madrassaName = document.getElementById("m-name").value || "മദ്റസത്തുുന്നുർ, ആസാദ് നഗർ";
+                let certMsg = `*${madrassaName}*\n*പരീക്ഷാ ഫലം* (${m.exam}):\n- വിദ്യാർത്ഥി: *${m.student}*\n- റാങ്ക്: *${rankText}*\n- ആകെ മാർക്ക്: *${m.total}*\n- ശതമാനം: *${m.percentage}*\n- ഗ്രേഡ്: *${m.grade}*\n- ഫലം: *${m.result}*\n- ഹാജർ: *${m.attendance}*${congratsText}\n\nتقبل الله وجزاكم الله خيرا`;
+                let wpMarkLink = `https://wa.me/?text=${encodeURIComponent(certMsg)}`;
+                
+                let subMarksJson = encodeURIComponent(JSON.stringify(m.subMarks || {}));
+
+                mHTML += `<tr>
+                    <td><strong>${displaySlNo}</strong></td><td>${m.gender || 'ആൺ (Boy)'}</td><td>${m.student}</td><td>${m.exam}</td>
+                    ${subCols}
+                    <td><strong>${m.total}</strong></td><td>${m.percentage}</td><td>${m.grade}</td><td>${m.result}</td><td><strong>${rankText}</strong></td><td>${m.attendance || '-'}</td>
+                    <td class="no-print">
+                        <a class="btn-whatsapp" href="${wpMarkLink}" target="_blank">വാട്സാപ്പ്</a> 
+                        <button onclick="printCert('${m.student}', '${m.exam}', '${m.total}', '${m.percentage}', '${m.grade}', '${m.result}', '${m.attendance}', '${subMarksJson}')">പ്രിന്റ്</button>
+                    </td>
+                </tr>`;
+            });
+            if(document.getElementById("mark-table-body")) document.getElementById("mark-table-body").innerHTML = mHTML;
+            updateDropdowns();
+        }
+
+        function printCert(student, exam, total, per, grade, result, att, subMarksEncoded) {
+            let madrassaName = document.getElementById("m-name").value || "മദ്റസത്തുുന്നുർ, ആസാദ് നഗർ";
+            document.getElementById("c-madrassa-name").innerText = madrassaName;
+            document.getElementById("c-student-name").innerText = student;
+            document.getElementById("c-exam-name").innerText = exam;
+            document.getElementById("c-total-mark").innerText = total;
+            document.getElementById("c-per").innerText = per;
+            document.getElementById("c-grade-text").innerText = "GRADE: " + grade;
+            document.getElementById("c-result-status").innerText = result;
+            document.getElementById("c-att").innerText = att;
+
+            let subMarksObj = JSON.parse(decodeURIComponent(subMarksEncoded));
+            let marksTableHtml = "";
+            for (let sub in subMarksObj) {
+                marksTableHtml += `<tr>
+                    <td style="border: 1px solid #000; padding: 5px;">${sub}</td>
+                    <td style="border: 1px solid #000; padding: 5px; text-align: center;">${subMarksObj[sub]}</td>
+                </tr>`;
+            }
+            document.getElementById("print-marks-tbody").innerHTML = marksTableHtml;
+
+            document.body.classList.add("print-single-cert");
+            window.print();
+            document.body.classList.remove("print-single-cert");
+        }
+
+        function updateDropdowns() {
+            let options = "";
+            students.forEach(s => {
+                options += `<option value="${s.name} (${s.cls})">${s.name} - ${s.cls} (${s.gender || 'ആൺ'}) (Adm: ${s.admno})</option>`;
+            });
+            if(document.getElementById("fee-student-select")) document.getElementById("fee-student-select").innerHTML = options;
+            if(document.getElementById("mark-student-select")) document.getElementById("mark-student-select").innerHTML = options;
+        }
+
+        window.onload = function() { loadData(); }
+    </script>
+</body>
+</html>
